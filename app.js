@@ -19,6 +19,8 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const AppError = require('./utils/appError');
 const errorHandler = require('./controllers/errorController');
 
+const { webhookCheckout } = require('./controllers/bookingController');
+
 const limiter = rateLimit({
     max: 100,
     windowMs: 60 * 60 * 1000,
@@ -45,6 +47,8 @@ app.options('*', cors());
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+app.post('/webhook-checkout', express.raw({ type: 'application/json' }), webhookCheckout);
 
 // Limit Request
 app.use('/api', limiter);
