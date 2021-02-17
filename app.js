@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
 const compression = require('compression');
+const cors = require('cors');
 
 const viewRoutes = require('./routes/viewRoutes');
 const tourRoutes = require('./routes/tourRoutes');
@@ -35,6 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP header
 app.use(helmet());
+
+app.use(cors());
+
+app.options('*', cors());
 
 // Development loggin
 if (process.env.NODE_ENV === 'development') {
