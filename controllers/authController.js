@@ -12,17 +12,16 @@ const signToken = id => {
     });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
     const token = signToken(user._id);
-
-    const cookieOption = {
-        expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
-        httpOnly: true
-    };
-
     user.password = undefined;
 
-    res.cookie('jwt', token, cookieOption);
+    res.cookie('jwt', token, {
+        expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+    });
+
     res.status(statusCode).json({
         status: 'success',
         token: token,
@@ -45,7 +44,7 @@ exports.signUp = CatchAsync(async (req, res, next) => {
     const url = `${req.protocol}://${req.get('host')}/me`;
     new Email(newUser, url).sendWelcome();
 
-    return createSendToken(newUser, 201, res);
+    return createSendToken(newUser, 201, req, res);
 });
 
 exports.login = CatchAsync(async (req, res, next) => {
@@ -61,7 +60,7 @@ exports.login = CatchAsync(async (req, res, next) => {
         return next(new AppError('Please enter valid email and password.', 401));
     }
 
-    return createSendToken(user, 201, res);
+    return createSendToken(user, 201, req, res);
 });
 
 exports.logout = CatchAsync(async (req, res, next) => {
@@ -122,7 +121,7 @@ exports.resetPassword = CatchAsync(async (req, res, next) => {
 
     await user.save();
 
-    return createSendToken(user, 201, res);
+    return createSendToken(user, 201, req, res);
 });
 
 exports.updatePassword = CatchAsync(async (req, res, next) => {
@@ -142,7 +141,7 @@ exports.updatePassword = CatchAsync(async (req, res, next) => {
     user.passwordConfirm = passwordConfirm;
     await user.save();
 
-    return createSendToken(user, 201, res);
+    return createSendToken(user, 201, req, res);
 });
 
 exports.isLogin = CatchAsync(async (req, res, next) => {
