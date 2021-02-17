@@ -31,7 +31,6 @@ if (logoutBtn) {
 
 if (mapBox) {
     const locations = JSON.parse(mapBox.dataset.locations);
-    console.log(locations);
     displayMap(locations);
 }
 
@@ -69,6 +68,5 @@ if (bookTourBtn) {
         e.target.textContent = 'Processing...';
         const tourId = e.target.dataset.tourId;
         await bookTour(tourId);
-        console.log(tourId);
     });
 }

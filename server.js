@@ -12,9 +12,6 @@ process.on('uncaughtException', err => {
 
 const app = require('./app');
 
-// console.log(app.get('env'));
-// console.log(process.env);
-
 const port = process.env.PORT || 3000;
 const dbUrl = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 

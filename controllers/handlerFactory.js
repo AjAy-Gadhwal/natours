@@ -48,7 +48,6 @@ exports.getOne = (Model, popOptions) =>
         if (!doc) {
             return next(new AppError('No document found with that ID', 404));
         }
-        console.log(doc.constructor);
 
         return res.status(200).json({ status: 'success', data: { [Model.collection.collectionName.toLowerCase()]: doc } });
     });

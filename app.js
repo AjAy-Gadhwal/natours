@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
+const compression = require('compression');
 
 const viewRoutes = require('./routes/viewRoutes');
 const tourRoutes = require('./routes/tourRoutes');
@@ -58,6 +59,8 @@ app.use(
         whitelist: ['duration', 'ratingsAverage', 'ratingsQuantity', 'maxGroupSize', 'startDates', 'difficulty', 'price']
     })
 );
+
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {

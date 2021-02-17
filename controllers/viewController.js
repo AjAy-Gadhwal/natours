@@ -36,7 +36,6 @@ exports.getMyTours = CatchAsync(async (req, res, next) => {
 });
 
 exports.updateUserData = CatchAsync(async (req, res, next) => {
-    console.log('req : ', req.body);
     const user = await User.findByIdAndUpdate(req.user.id, { name: req.body.name, email: req.body.email }, { new: true, runValidators: true });
 
     return res.status(200).render('account', { title: 'Your Account', user });

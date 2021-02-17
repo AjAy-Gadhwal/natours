@@ -63,9 +63,6 @@ exports.getCurrentUser = (req, res, next) => {
 };
 
 exports.updateCurrentUser = CatchAsync(async (req, res, next) => {
-    console.log(req.body);
-    console.log(req.file);
-
     if (req.body.password || req.body.passwordConfirm) {
         return next(new AppError('This route is not for password updates. Please use /updatePassword.', 400));
     }
@@ -74,7 +71,6 @@ exports.updateCurrentUser = CatchAsync(async (req, res, next) => {
     if (req.file) updateData.photo = req.file.filename;
 
     const user = await User.findByIdAndUpdate(req.user.id, updateData, { new: true, runValidators: true });
-    console.log('user : ', user);
 
     return res.status(200).json({ status: 'success', data: { user } });
 });
