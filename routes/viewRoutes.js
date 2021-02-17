@@ -1,8 +1,10 @@
 const express = require('express');
-const { getOverview, getTour, getLogin, getMe, getMyTours, updateUserData } = require('./../controllers/viewController');
+const { getOverview, getTour, getLogin, getMe, getMyTours, updateUserData, alerts } = require('./../controllers/viewController');
 const { isLogin, authentication } = require('./../controllers/authController');
 
 const router = express.Router();
+
+router.use(alerts);
 router.get('/', isLogin, getOverview);
 router.get('/tour/:slug', isLogin, getTour);
 router.get('/login', isLogin, getLogin);

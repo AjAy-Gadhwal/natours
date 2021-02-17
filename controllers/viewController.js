@@ -40,3 +40,14 @@ exports.updateUserData = CatchAsync(async (req, res, next) => {
 
     return res.status(200).render('account', { title: 'Your Account', user });
 });
+
+exports.alerts = (req, res, next) => {
+    const { alert } = req.query;
+
+    if (alert === 'booking') {
+        res.locals.alert =
+            "Your booking was successful!. Please check your email for a confirmation. If your booking doesn't show up here immedialty, please come back later.";
+    }
+
+    return next();
+};

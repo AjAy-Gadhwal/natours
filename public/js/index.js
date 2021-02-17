@@ -4,6 +4,7 @@ import { login, logout } from './login';
 import { bookTour } from './stripe';
 import { updateSettings } from './updateSettings';
 import { displayMap } from './mapbox';
+import { showAlert } from './alerts';
 
 const loginForm = document.querySelector('.form--login');
 const logoutBtn = document.querySelector('.nav__el--logout');
@@ -13,6 +14,8 @@ const accountForm = document.querySelector('.form-user-data');
 const passwordForm = document.querySelector('.form-user-password');
 
 const bookTourBtn = document.getElementById('book-tour');
+
+const alertMessage = document.querySelector('body').dataset.alert;
 
 if (loginForm) {
     loginForm.addEventListener('submit', e => {
@@ -69,4 +72,8 @@ if (bookTourBtn) {
         const tourId = e.target.dataset.tourId;
         await bookTour(tourId);
     });
+}
+
+if (alertMessage) {
+    showAlert('success', alertMessage, 20);
 }

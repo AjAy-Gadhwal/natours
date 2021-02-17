@@ -7,7 +7,7 @@ export const hideAlert = () => {
     }
 };
 
-export const showAlert = (type, msg) => {
+export const showAlert = (type, msg, time = 7) => {
     hideAlert();
 
     const markup = `<div class="alert alert--${type}" >${msg}</div>`;
@@ -15,5 +15,5 @@ export const showAlert = (type, msg) => {
 
     setTimeout(() => {
         hideAlert();
-    }, 5000);
+    }, time * 1000);
 };
